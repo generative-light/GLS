@@ -1,47 +1,55 @@
 package com.generativelight.gls.synth;
 
-import com.generativelight.gls.synth.midi.Trigger;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import java.util.ArrayList;
 
 /**
  * A slot is a channel on the MIDI bus. It has an image where the active Cue draws on .
- * In the end of every render process the image is drawn to the CUE bases outImage which is a device or group on the stage.
+ * At the end of every render process the image is drawn to the outImages which are images of devices or groups on the stage.
  *
  * Created: Generative Light, Janneck Wullschleger, 2016
  */
 public class Slot {
 
-    private ArrayList<Cue> cues;
+    private final static int SLOT_IMAGE_DIMENSION = 256;
+
+    private ArrayList<Cue> cueList;
     private Cue activeCue;
-    private PApplet papplet;
+
     private PGraphics image;
-    private int triggerLength = 0;
+    private ArrayList<PGraphics> outImages;
 
-
+    private Trigger trigger;
 
     protected Slot(PApplet papplet) {
-        cues = new ArrayList<>();
-        //TODO: add final int for DIMENSION
-        image = papplet.createGraphics(128, 128);
-    }
-
-    protected void draw() {
-        activeCue.draw(image);
-
-        //cleanup after drawing
-        image.background(0);
+        cueList = new ArrayList<>();
+        image = papplet.createGraphics(SLOT_IMAGE_DIMENSION, SLOT_IMAGE_DIMENSION);
+        outImages = new ArrayList<>();
+        trigger = null;
     }
 
     protected void addCue(Cue cue) {
-        cues.add(cue);
+        cueList.add(cue);
+    }
+
+    protected void removeCue(int index) {
+        if ((index >= 0) && (index < cueList.size())) {
+            cueList.remove(index);
+        }
     }
 
     protected void selectCue(int cue) {
-        if ((cue >= 0) && (cue < cues.size())) {
-            activeCue = cues.get(cue);
-            activeCue.resizeSlotImage(image);
+        if ((cue >= 0) && (cue < cueList.size())) {
+            activeCue = cueList.get(cue);
+        }
+    }
+
+    protected void addOutImage(PGraphics outImage) { outImages.add(outImage); }
+
+    protected void removeOutImage(int index) {
+        if ((index >= 0) && (index < outImages.size())) {
+            outImages.remove(index);
         }
     }
 
@@ -49,9 +57,48 @@ public class Slot {
         // do something with the value
     }
 
-    protected void trigger(Trigger trigger) {
-        activeCue.trigger(trigger);
+    public void trigger(Trigger trigger) {
+        if (this.trigger != null) System.out.println("retrigger...");
+        this.trigger = trigger;
     }
+
+    protected void synth() {
+        if (trigger != null) {
+            trigger.updateAge();
+            if (trigger.getAge() <= 1.0f) {
+                if (activeCue != null) {
+                    //activeCue.draw(image, trigger);
+                    //drawToOutImages();
+                    //clearImage();
+                }
+            } else {
+                trigger = null;
+            }
+        }
+    }
+
+    private void drawToOutImages() {
+        for (PGraphics outImage : outImages) {
+            outImage.beginDraw();
+            outImage.image(image, outImage.width/2, outImage.height/2, outImage.width, outImage.height);
+            image.endDraw();
+        }
+    }
+
+    private void clearImage() {
+        image.beginDraw();
+        image.background(0,0);
+        image.endDraw();
+    }
+
+    public float getStatus() {
+        if (trigger == null) {
+            return 0.0f;
+        } else {
+            return trigger.getAge();
+        }
+    }
+
 
 
 }

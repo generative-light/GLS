@@ -7,11 +7,13 @@ import processing.core.PApplet;
 import java.util.ArrayList;
 
 /**
- * The Manager is an interface between the stage, the MIDI input and the drawing parts.
+ * The Synth is an interface between the stage, the MIDI input and the drawing parts.
  *
  * Created: Generative Light, Janneck Wullschleger, 2016
  */
 public class Synth {
+
+    private static Synth instance = null;
 
     final static int SLOT_COUNT = 8;
 
@@ -20,8 +22,13 @@ public class Synth {
     private Stage stage;
     private PApplet papplet;
 
+    public static Synth getSynth() {
+        if (instance == null) System.out.println("Create Synth before calling getSynth()!");
+        return instance;
+    }
+
     /**
-     * Constructor for Creating the whole app.
+     * Constructor for Creating the Synth.
      * @param papplet the processing parent
      */
     public Synth(PApplet papplet) {
@@ -36,6 +43,8 @@ public class Synth {
         midiInput = new MIDIInput(this);
 
         stage = StageBuilder.build("C:\\Users\\janne\\Desktop\\stage.json", papplet);
+
+        instance = this;
     }
 
     /**
@@ -51,11 +60,11 @@ public class Synth {
     }
 
     /**
-     * Calles the draw methods of all slots
+     * Calls the synth methods of all slots
      */
-    public void draw() {
+    public void synth() {
         for (Slot slot : slots) {
-            slot.draw();
+            slot.synth();
         }
         stage.updateStage();
     }

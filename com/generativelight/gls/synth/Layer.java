@@ -9,7 +9,7 @@ import processing.core.PGraphics;
  */
 public class Layer {
 
-    protected void draw(PGraphics image) {
+    protected void draw(PGraphics image, float alpha, float age) {
 
     }
 }

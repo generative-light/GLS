@@ -1,6 +1,5 @@
 package com.generativelight.gls.synth;
 
-import com.generativelight.gls.synth.midi.Trigger;
 import processing.core.PGraphics;
 import java.util.ArrayList;
 
@@ -11,33 +10,37 @@ import java.util.ArrayList;
  */
 public class Cue {
 
-    private ArrayList<Layer> layers;
-    private PGraphics outImage;
+    private ArrayList<Layer> layerList;
 
+    private Easing.Type alphaInCurve;
+    private Easing.Type alphaOutCurve;
+    private float curveSwitch;
 
     protected Cue() {
-        layers = new ArrayList<>();
+        layerList = new ArrayList<>();
+        alphaInCurve = Easing.Type.LINEAR_IN;
+        alphaOutCurve = Easing.Type.LINEAR_IN;
+        curveSwitch = 0.5f;
     }
 
-    protected void resizeSlotImage(PGraphics image) {
-        image.setSize(outImage.width, outImage.height);
-    }
+    protected void draw(PGraphics image, Trigger trigger) {
+        float age   = trigger.getAge();
+        float alpha = Easing.getValue(alphaInCurve, alphaOutCurve, age, curveSwitch, 0.0f, (float)(trigger.getVelocity() / 127.0));
 
-    protected void trigger(Trigger trigger) {    }
-
-    protected void setOutImage(PGraphics outImage) {
-        this.outImage = outImage;
-    }
-
-    protected void draw(PGraphics image) {
         image.beginDraw();
-        for (Layer layer : layers) {
-            layer.draw(image);
+        for (Layer layer : layerList) {
+            layer.draw(image, alpha, age);
         }
         image.endDraw();
+    }
 
-        outImage.beginDraw();
-        outImage.image(image, outImage.width/2, outImage.height/2);
-        outImage.endDraw();
+    private void addLayer(Layer layer, int index) {
+        layerList.add(index, layer);
+    }
+
+    private void removeLayer(int index) {
+        if ((index >= 0) && (index < layerList.size())) {
+            layerList.remove(index);
+        }
     }
 }
