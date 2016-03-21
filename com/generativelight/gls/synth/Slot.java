@@ -1,6 +1,6 @@
 package com.generativelight.gls.synth;
 
-import com.generativelight.gls.synth.utils.ColorPalette;
+import com.generativelight.gls.gfx.ColorPalette;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import java.util.ArrayList;
@@ -30,6 +30,11 @@ public class Slot {
         image = papplet.createGraphics(SLOT_IMAGE_DIMENSION, SLOT_IMAGE_DIMENSION);
         outImages = new ArrayList<>();
         trigger = null;
+
+        //testing
+        Cue cue = new Cue();
+        addCue(cue);
+        selectCue(0);
     }
 
     protected void addCue(Cue cue) {
@@ -80,8 +85,8 @@ public class Slot {
             if (trigger.getAge() <= 1.0f) {
                 if (activeCue != null) {
                     //activeCue.draw(image, trigger);
-                    //drawToOutImages();
-                    //clearImage();
+                    drawToOutImages();
+                    clearImage();
                 }
             } else {
                 trigger = null;

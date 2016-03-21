@@ -3,7 +3,7 @@ package com.generativelight.gls.synth;
 import com.generativelight.gls.stage.StageBuilder;
 import com.generativelight.gls.stage.Stage;
 import com.generativelight.gls.synth.midi.MIDIInput;
-import com.generativelight.gls.synth.utils.ColorPalette;
+import com.generativelight.gls.gfx.ColorPalette;
 import processing.core.PApplet;
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public class Synth {
     private static Synth instance = null;
     private static int[] defaultColors = {};
 
-    final static int SLOT_COUNT = 8;
+    final static int SLOT_COUNT = 1;
 
     private ArrayList<Slot> slots;
     private MIDIInput midiInput;
@@ -65,6 +65,8 @@ public class Synth {
     }
 
     public ColorPalette getColorPalette() { return colorPalette; }
+
+    public PApplet getPApplet() { return papplet; }
 
     /**
      * Calls the synth methods of all slots

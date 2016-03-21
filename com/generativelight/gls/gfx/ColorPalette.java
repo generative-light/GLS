@@ -1,4 +1,4 @@
-package com.generativelight.gls.synth.utils;
+package com.generativelight.gls.gfx;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
 package com.generativelight.gls.synth;
 
-import com.generativelight.gls.synth.utils.ColorPalette;
+import com.generativelight.gls.gfx.ColorPalette;
 import processing.core.PGraphics;
 import java.util.ArrayList;
 
@@ -26,6 +26,10 @@ public class Cue {
         alphaInCurve = Easing.Type.LINEAR_IN;
         alphaOutCurve = Easing.Type.LINEAR_IN;
         curveSwitch = 0.5f;
+
+        //testing
+        Layer layer = new Layer();
+        addLayer(layer, 0);
     }
 
     protected void setSlot(Slot slot) {
@@ -44,11 +48,9 @@ public class Cue {
         float age   = trigger.getAge();
         float alpha = Easing.getValue(alphaInCurve, alphaOutCurve, age, curveSwitch, 0.0f, (float)(trigger.getVelocity() / 127.0));
 
-        image.beginDraw();
         for (Layer layer : layerList) {
             layer.draw(image, alpha, age);
         }
-        image.endDraw();
     }
 
     private void addLayer(Layer layer, int index) {
