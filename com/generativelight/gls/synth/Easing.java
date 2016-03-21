@@ -12,7 +12,14 @@ public class Easing {
     /**
      * Defines the easing functions which are available
      */
-    public enum Type { LINEAR_IN, SINE_IN, SINE_OUT, SINE_INOUT, CIRC_IN, CIRC_OUT, CIRC_INOUT};
+    public enum Type {
+        LINEAR_IN,
+        SINE_IN, SINE_OUT, SINE_INOUT,
+        CIRC_IN, CIRC_OUT, CIRC_INOUT,
+        QUART_IN, QUART_OUT, QUART_INOUT,
+        EXPO_IN, EXPO_OUT, EXPO_INOUT,
+        BACK_IN, BACK_OUT, BACK_INOUT
+    }
 
     /**
      * Calculates a value depending on the easing, the age and the start and end values.
@@ -46,7 +53,7 @@ public class Easing {
 
     /**
      * Calculates a value depending on the easings, the age and the start and end values.
-     * After curveSwitch the same easing is used to go back to the start value.
+     * After curveSwitch the outCurve is used to go back to the start value.
      *
      * @param inCurve Type of the easing for age = 0.0 -> age < curveSwitch
      * @param outCurve Type of the easing for age = curveSwitch -> age = 1.0
@@ -82,6 +89,15 @@ public class Easing {
             case CIRC_IN:       return circIn(age, diff);
             case CIRC_OUT:      return circOut(age, diff);
             case CIRC_INOUT:    return circInOut(age, diff);
+            case QUART_IN:      return quartIn(age, diff);
+            case QUART_OUT:     return quartOut(age, diff);
+            case QUART_INOUT:   return quartInOut(age, diff);
+            case EXPO_IN:       return expoIn(age, diff);
+            case EXPO_OUT:      return expoOut(age, diff);
+            case EXPO_INOUT:    return expoInOut(age, diff);
+            case BACK_IN:       return backIn(age, diff);
+            case BACK_OUT:      return backOut(age, diff);
+            case BACK_INOUT:    return backInOut(age, diff);
             default:            return linearIn(age, diff);
         }
     }
@@ -120,4 +136,47 @@ public class Easing {
         return  diff/2 * ((float)Math.sqrt(1 - (age - 2) * (age - 2)) + 1);
     }
 
+    private static float quartIn(float age, float diff) {
+        return diff * age * age * age * age;
+    }
+
+    private static float quartOut(float age, float diff) {
+        return -diff * ((age - 1) * (age - 1) * (age - 1) * (age - 1) - 1);
+    }
+
+    private static float quartInOut(float age, float diff) {
+        if ((age *= 2) < 1) return diff / 2 * age * age * age * age;
+        return -diff / 2 * ((age -= 2 ) * age * age * age - 2);
+    }
+
+    private static float expoIn(float age, float diff) {
+        return (age == 0) ? 0.0f : diff * (float)Math.pow(2, 10 * (age - 1));
+    }
+
+    private static float expoOut(float age, float diff) {
+        return (age == 1) ? diff : diff * (-(float)Math.pow(2, -10 * age) + 1);
+    }
+
+    private static float expoInOut(float age, float diff) {
+        if (age == 0) return 0;
+        if (age == 1) return diff;
+        if ((age *= 2) < 1) return diff/2 * (float)Math.pow(2, 10 * (age - 1));
+        return diff/2 * (-(float)Math.pow(2, -10 * --age) + 2);
+    }
+
+    private static float backIn(float age, float diff) {
+        float s = 1.70158f;
+        return diff * age * age * ((s + 1) * age - s);
+    }
+
+    private static float backOut(float age, float diff) {
+        float s = 1.70158f;
+        return diff * ((age -= 1) *  age * ((s + 1) * age + s) + 1);
+    }
+
+    private static float backInOut(float age, float diff) {
+        float s = 1.70158f;
+        if ((age *= 2) < 1) return diff / 2 * (age * age *(((s *= 1.525f) + 1)* age - s));
+        return diff / 2 * ((age -= 2) * age * (((s *= 1.525f) + 1) * age + s) + 2);
+    }
 }

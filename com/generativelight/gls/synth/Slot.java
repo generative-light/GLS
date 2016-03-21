@@ -1,11 +1,12 @@
 package com.generativelight.gls.synth;
 
+import com.generativelight.gls.synth.utils.ColorPalette;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import java.util.ArrayList;
 
 /**
- * A slot is a channel on the MIDI bus. It has an image where the active Cue draws on .
+ * A slot holds a list of cues. One cue is the active cue and gets the triggers from the slot to draw something.
  * At the end of every render process the image is drawn to the outImages which are images of devices or groups on the stage.
  *
  * Created: Generative Light, Janneck Wullschleger, 2016
@@ -22,6 +23,8 @@ public class Slot {
 
     private Trigger trigger;
 
+    private ColorPalette colorPalette;
+
     protected Slot(PApplet papplet) {
         cueList = new ArrayList<>();
         image = papplet.createGraphics(SLOT_IMAGE_DIMENSION, SLOT_IMAGE_DIMENSION);
@@ -31,6 +34,7 @@ public class Slot {
 
     protected void addCue(Cue cue) {
         cueList.add(cue);
+        cue.setSlot(this);
     }
 
     protected void removeCue(int index) {
@@ -55,6 +59,14 @@ public class Slot {
 
     protected void controllerChange(int value) {
         // do something with the value
+    }
+
+    public ColorPalette getColorPalette() {
+        if (colorPalette == null) {
+            return Synth.getSynth().getColorPalette();
+        } else {
+            return colorPalette;
+        }
     }
 
     public void trigger(Trigger trigger) {

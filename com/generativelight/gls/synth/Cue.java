@@ -1,5 +1,6 @@
 package com.generativelight.gls.synth;
 
+import com.generativelight.gls.synth.utils.ColorPalette;
 import processing.core.PGraphics;
 import java.util.ArrayList;
 
@@ -16,11 +17,27 @@ public class Cue {
     private Easing.Type alphaOutCurve;
     private float curveSwitch;
 
+    private ColorPalette colorPalette;
+
+    private Slot slot;
+
     protected Cue() {
         layerList = new ArrayList<>();
         alphaInCurve = Easing.Type.LINEAR_IN;
         alphaOutCurve = Easing.Type.LINEAR_IN;
         curveSwitch = 0.5f;
+    }
+
+    protected void setSlot(Slot slot) {
+        this.slot = slot;
+    }
+
+    public ColorPalette getColorPalette() {
+        if (colorPalette == null) {
+            return slot.getColorPalette();
+        } else {
+            return colorPalette;
+        }
     }
 
     protected void draw(PGraphics image, Trigger trigger) {
