@@ -16,7 +16,7 @@ public class Stage {
     private ArrayList<DeviceGroup>  deviceGroups;
 
     private String      name;
-    private float       dimLevel = 0.5f;
+    private float       dimLevel = 0.8f;
     private String      config;
 
     /**

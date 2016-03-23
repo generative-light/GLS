@@ -1,7 +1,10 @@
 package com.generativelight.gls.synth;
 
 import com.generativelight.gls.gfx.ColorPalette;
+import com.generativelight.gls.stage.devices.ImageDevice;
+import com.generativelight.gls.stage.devices.OPCDevice;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PGraphics;
 import java.util.ArrayList;
 
@@ -27,7 +30,8 @@ public class Slot {
 
     protected Slot(PApplet papplet) {
         cueList = new ArrayList<>();
-        image = papplet.createGraphics(SLOT_IMAGE_DIMENSION, SLOT_IMAGE_DIMENSION);
+        image = papplet.createGraphics(SLOT_IMAGE_DIMENSION, SLOT_IMAGE_DIMENSION, PConstants.P2D);
+        clearImage();
         outImages = new ArrayList<>();
         trigger = null;
 
@@ -35,6 +39,7 @@ public class Slot {
         Cue cue = new Cue();
         addCue(cue);
         selectCue(0);
+        addOutImage(((OPCDevice)(Synth.getSynth().getStage().getDevices().get(0))).getImage());
     }
 
     protected void addCue(Cue cue) {
@@ -84,12 +89,13 @@ public class Slot {
             trigger.updateAge();
             if (trigger.getAge() <= 1.0f) {
                 if (activeCue != null) {
-                    //activeCue.draw(image, trigger);
-                    drawToOutImages();
                     clearImage();
+                    activeCue.draw(image, trigger);
+                    drawToOutImages();
                 }
             } else {
                 trigger = null;
+                clearImage();
             }
         }
     }
@@ -98,13 +104,14 @@ public class Slot {
         for (PGraphics outImage : outImages) {
             outImage.beginDraw();
             outImage.image(image, outImage.width/2, outImage.height/2, outImage.width, outImage.height);
-            image.endDraw();
+            outImage.endDraw();
         }
     }
 
     private void clearImage() {
         image.beginDraw();
-        image.background(0,0);
+        image.background(0); // clear
+        image.background(0, 0);
         image.endDraw();
     }
 
@@ -115,6 +122,9 @@ public class Slot {
             return trigger.getAge();
         }
     }
+
+    //testing
+    public PGraphics getSlotImage() { return image; }
 
 
 

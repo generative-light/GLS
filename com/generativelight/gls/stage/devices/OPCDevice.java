@@ -34,7 +34,7 @@ public class OPCDevice extends ImageDevice {
     private int[] pixelLocations;
 
     private float dimLevel = 1.0f;
-    private float stageDimLevel = 1.0f;    // to cache the dimLevel of the stage
+    private float stageDimLevel = 0.8f;    // to cache the dimLevel of the stage
 
     private Socket socket;
     private OutputStream output;
@@ -68,8 +68,11 @@ public class OPCDevice extends ImageDevice {
             }
         }
 
-        image = papplet.createGraphics(IMAGE_DIMENSION, IMAGE_DIMENSION);
+        image = papplet.createGraphics(IMAGE_DIMENSION, IMAGE_DIMENSION, PConstants.P2D);
         image.imageMode(PConstants.CENTER);
+        image.beginDraw();
+        image.background(0);
+        image.endDraw();
 
         connect();
     }

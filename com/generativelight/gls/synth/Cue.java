@@ -48,6 +48,8 @@ public class Cue {
         float age   = trigger.getAge();
         float alpha = Easing.getValue(alphaInCurve, alphaOutCurve, age, curveSwitch, 0.0f, (float)(trigger.getVelocity() / 127.0));
 
+        System.out.println("CUE: draw " + alpha + ", " + age);
+
         for (Layer layer : layerList) {
             layer.draw(image, alpha, age);
         }

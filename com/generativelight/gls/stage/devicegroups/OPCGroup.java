@@ -51,6 +51,9 @@ public class OPCGroup extends ImageDeviceGroup {
     protected void createImage() {
         image = papplet.createGraphics((grid.getWidth() * OPCDevice.IMAGE_DIMENSION), (grid.getHeight() * OPCDevice.IMAGE_DIMENSION));
         image.imageMode(PConstants.CENTER);
+        image.beginDraw();
+        image.background(0);
+        image.endDraw();
     }
 
     /**

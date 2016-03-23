@@ -23,7 +23,7 @@ public class Layer {
 
         //testing
         blendMode = PConstants.ADD;
-        shader = new GLShader("C:\\ladida");
+        shader = new GLShader("test");
 
     }
 
@@ -35,9 +35,11 @@ public class Layer {
     }
 
     protected void draw(PGraphics image, float alpha, float age) {
+
+        System.out.println("Layer: draw " + alpha + ", " + age);
         image.beginDraw();
         image.blendMode(blendMode);
-        //shader.draw(image, alpha, age);
+        shader.draw(image, alpha, age);
         image.endDraw();
     }
 }

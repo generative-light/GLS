@@ -38,11 +38,6 @@ public class Synth {
 
         this.papplet = papplet;
 
-        slots = new ArrayList<>();
-        for (int i = 0; i < SLOT_COUNT; i++) {
-            slots.add(new Slot(papplet));
-        }
-
         midiInput = new MIDIInput(this);
 
         stage = StageBuilder.build("C:\\Users\\janne\\Desktop\\stage.json", papplet);
@@ -50,6 +45,13 @@ public class Synth {
         colorPalette = new ColorPalette(defaultColors);
 
         instance = this;
+    }
+
+    public void createSlots() {
+        slots = new ArrayList<>();
+        for (int i = 0; i < SLOT_COUNT; i++) {
+            slots.add(new Slot(papplet));
+        }
     }
 
     /**
@@ -72,10 +74,14 @@ public class Synth {
      * Calls the synth methods of all slots
      */
     public void synth() {
-        for (Slot slot : slots) {
-            slot.synth();
+        try {
+            for (Slot slot : slots) {
+                slot.synth();
+            }
+            stage.updateStage();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        stage.updateStage();
     }
 
     /**
