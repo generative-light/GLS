@@ -20,6 +20,7 @@ public class Slot {
 
     private ArrayList<Cue> cueList;
     private Cue activeCue;
+    private int selectedCue = 0;
 
     private PGraphics image;
     private ArrayList<PGraphics> outImages;
@@ -56,7 +57,7 @@ public class Slot {
 
     protected void selectCue(int cue) {
         if ((cue >= 0) && (cue < cueList.size())) {
-            activeCue = cueList.get(cue);
+            selectedCue = cue;
         }
     }
 
@@ -104,6 +105,10 @@ public class Slot {
                 }
             } else {
                 trigger = null;
+            }
+        } else {
+            if ((selectedCue >= 0) && (selectedCue < cueList.size())) {
+                activeCue = cueList.get(selectedCue);
             }
         }
     }

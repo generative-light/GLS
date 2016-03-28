@@ -199,6 +199,8 @@ public class OPCDevice extends ImageDevice {
         } catch (Exception e) {
             disconnect();
         }
+
+        image.beginDraw();
     }
 
     /**

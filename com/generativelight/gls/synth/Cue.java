@@ -5,7 +5,7 @@ import processing.core.PGraphics;
 import java.util.ArrayList;
 
 /**
- * The Cue ...
+ * The Cue is a collection of layers with its own description for the alpha envelope and optional an own color palette.
  *
  * Created: Generative Light, Janneck Wullschleger, 2016
  */
@@ -28,8 +28,8 @@ public class Cue {
         curveSwitch = 0.5f;
 
         //testing
-        Layer layer = new Layer();
-        addLayer(layer, 0);
+        Layer layer = new Layer("marble.json");
+        addLayer(layer);
     }
 
     protected void setSlot(Slot slot) {
@@ -53,6 +53,7 @@ public class Cue {
         }
     }
 
+    private void addLayer(Layer layer) { layerList.add(layer); }
     private void addLayer(Layer layer, int index) {
         layerList.add(index, layer);
     }

@@ -2,7 +2,6 @@ package com.generativelight.gls.synth;
 
 import com.generativelight.gls.stage.StageBuilder;
 import com.generativelight.gls.stage.Stage;
-import com.generativelight.gls.synth.midi.MIDIInput;
 import com.generativelight.gls.gfx.ColorPalette;
 import processing.core.PApplet;
 import java.util.ArrayList;

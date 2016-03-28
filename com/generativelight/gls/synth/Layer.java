@@ -4,6 +4,7 @@ import com.generativelight.gls.gfx.ColorPalette;
 import com.generativelight.gls.gfx.GLShader;
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.data.JSONObject;
 
 /**
  * A Layer ...
@@ -19,11 +20,12 @@ public class Layer {
     private int blendMode;              // uses the PConstants ADD BLEND ...
     private GLShader shader;
 
-    public Layer() {
+    public Layer(String jsonPath) {
 
         //testing
         blendMode = PConstants.ADD;
-        shader = new GLShader("test");
+        JSONObject json = Synth.getSynth().getPApplet().loadJSONObject(jsonPath);
+        shader = new GLShader(json);
 
     }
 

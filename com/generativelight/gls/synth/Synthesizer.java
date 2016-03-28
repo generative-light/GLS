@@ -11,5 +11,4 @@ public interface Synthesizer {
     void selectCueInSlot(int slotIndex, int cueIndex);
     void sendLayerCommandInSlot(int slotIndex, LayerCommand command);
 
-
 }

@@ -3,6 +3,8 @@ package com.generativelight.gls.synth;
 /**
  * The Easing class calculates values based on easings.
  *
+ * Created: Generative Light, Janneck Wullschleger, 2016
+ *
  * Easing methods are taken from Robert Penner, who licensed them under the BSD License.
  * https://github.com/jesusgollonet/processing-penner-easing
  * http://www.opensource.org/licenses/bsd-license.php
@@ -68,6 +70,33 @@ public class Easing {
         if (age < curveSwitch) return getValue(inCurve, (age / curveSwitch),  start, end);
         return getValue(outCurve, ((age - curveSwitch) / (1 - curveSwitch)), end, start);
 
+    }
+
+    /**
+     * Converts a string representing an easing type into the type
+     * @param type the string version of the type
+     * @return the type
+     */
+    public static Type getType(String type) {
+        switch (type) {
+            case "LINEAR_IN":   return Type.LINEAR_IN;
+            case "SINE_IN":     return Type.SINE_IN;
+            case "SINE_OUT":    return Type.SINE_OUT;
+            case "SINE_INOUT":  return Type.SINE_INOUT;
+            case "CIRC_IN":     return Type.CIRC_IN;
+            case "CIRC_OUT":    return Type.CIRC_OUT;
+            case "CIRC_INOUT":  return Type.CIRC_INOUT;
+            case "QUART_IN":    return Type.QUART_IN;
+            case "QUART_OUT":   return Type.QUART_OUT;
+            case "QUART_INOUT": return Type.QUART_INOUT;
+            case "EXPO_IN":     return Type.EXPO_IN;
+            case "EXPO_OUT":    return Type.EXPO_OUT;
+            case "EXPO_INOUT":  return Type.EXPO_INOUT;
+            case "BACK_IN":     return Type.BACK_IN;
+            case "BACK_OUT":    return Type.BACK_OUT;
+            case "BACK_INOUT":  return Type.BACK_INOUT;
+            default:            return Type.LINEAR_IN;
+        }
     }
 
     /**
