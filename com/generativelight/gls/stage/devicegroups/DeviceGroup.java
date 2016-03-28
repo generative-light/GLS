@@ -1,6 +1,5 @@
 package com.generativelight.gls.stage.devicegroups;
 
-import java.util.ArrayList;
 
 /**
  * This class groups devices together to get a single interface to interact with multiple devices like interacting with one.

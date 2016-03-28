@@ -25,6 +25,7 @@ public class Slot {
     private ArrayList<PGraphics> outImages;
 
     private Trigger trigger;
+    private long triggerDuration;
 
     private ColorPalette colorPalette;
 
@@ -84,18 +85,25 @@ public class Slot {
         this.trigger = trigger;
     }
 
+    public void setTriggerDuration(long durationInMillis) {
+        triggerDuration = durationInMillis;
+    }
+
+    public void sendLayerCommand(LayerCommand command) {
+
+    }
+
     protected void synth() {
         if (trigger != null) {
             trigger.updateAge();
+            clearImage();
             if (trigger.getAge() <= 1.0f) {
                 if (activeCue != null) {
-                    clearImage();
                     activeCue.draw(image, trigger);
                     drawToOutImages();
                 }
             } else {
                 trigger = null;
-                clearImage();
             }
         }
     }

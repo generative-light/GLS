@@ -12,16 +12,17 @@ import java.util.ArrayList;
  *
  * Created: Generative Light, Janneck Wullschleger, 2016
  */
-public class Synth {
+public class Synth implements Synthesizer{
 
     private static Synth instance = null;
     private static int[] defaultColors = {};
 
-    final static int SLOT_COUNT = 1;
+    private final static int SLOT_COUNT = 1;
 
     private ArrayList<Slot> slots;
-    private MIDIInput midiInput;
     private Stage stage;
+    private Clock clock;
+
     private PApplet papplet;
     private ColorPalette colorPalette;
 
@@ -35,16 +36,42 @@ public class Synth {
      * @param papplet the processing parent
      */
     public Synth(PApplet papplet) {
-
-        this.papplet = papplet;
-
-        midiInput = new MIDIInput(this);
-
-        stage = StageBuilder.build("C:\\Users\\janne\\Desktop\\stage.json", papplet);
-
-        colorPalette = new ColorPalette(defaultColors);
-
         instance = this;
+        this.papplet = papplet;
+        stage = StageBuilder.build("C:\\Users\\janne\\Desktop\\stage.json", papplet);
+        colorPalette = new ColorPalette(defaultColors);
+    }
+
+    public void triggerSlot(int slotIndex, Trigger trigger) {
+        try {
+            slots.get(slotIndex - 1).trigger(trigger);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Synth: triggerSlot(): slotIndex invalid");
+        }
+    }
+
+    public void setTriggerDurationOfSlot(int slotIndex, int durationInBeats) {
+        try {
+            slots.get(slotIndex - 1).setTriggerDuration(durationInBeats * clock.getBeatDuration());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Synth: changeTriggerDurationOfSlot(): slotIndex invalid");
+        }
+    }
+
+    public void selectCueInSlot(int slotIndex, int cueIndex) {
+        try {
+            slots.get(slotIndex - 1).selectCue(cueIndex);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Synth: selectCueInSlot(): slotIndex invalid");
+        }
+    }
+
+    public void sendLayerCommandInSlot(int slotIndex, LayerCommand command) {
+        try {
+            slots.get(slotIndex - 1).sendLayerCommand(command);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Synth: selectCueInSlot(): slotIndex invalid");
+        }
     }
 
     public void createSlots() {

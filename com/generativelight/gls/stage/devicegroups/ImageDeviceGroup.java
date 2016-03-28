@@ -17,6 +17,8 @@ import java.util.HashMap;
  */
 public abstract class ImageDeviceGroup extends DeviceGroup {
 
+    // TODO: extend ImageDevice for easier using the group as an device from extern
+
     protected PApplet papplet;
     protected PGraphics image;
     protected DynamicGrid grid;

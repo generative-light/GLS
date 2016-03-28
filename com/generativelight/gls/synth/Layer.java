@@ -35,8 +35,6 @@ public class Layer {
     }
 
     protected void draw(PGraphics image, float alpha, float age) {
-
-        System.out.println("Layer: draw " + alpha + ", " + age);
         image.beginDraw();
         image.blendMode(blendMode);
         shader.draw(image, alpha, age);
